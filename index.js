@@ -46,6 +46,6 @@ wss.on('connection', (ws) => {
 });
 
 // Start the server
-server.listen(3000, () => {
+server.listen(port, () => {
   console.log(`WebSocket server is listening on ws://192.168.207.234:${port}`);
 });
