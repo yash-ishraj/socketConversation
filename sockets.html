@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket Client</title>
+</head>
+<body>
+  <h1>WebSocket Chat</h1>
+  <div>
+    <label for="messageInput">Send a message:</label>
+    <input type="text" id="messageInput" placeholder="Type your message">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+  <div>
+    <h2>Messages:</h2>
+    <div id="messages"></div>
+  </div>
+
+  <script>
+    // Create a new WebSocket connection to the server
+    const socket = new WebSocket(`ws://${window.location.host}`);
+
+    
+    // Listen for the connection open event
+    socket.onopen = () => {
+      console.log('Connected to the WebSocket server');
+    };
+
+
+    // Listen for incoming messages from the server (broadcasted from another client)
+    socket.onmessage = (event) => {
+        console.log(event.data);
+      const messagesDiv = document.getElementById('messages');
+      const message = document.createElement('div');
+      message.textContent = `Other Client: ${event.data}`;
+      messagesDiv.appendChild(message);
+    };
+
+    // Listen for the close event
+    socket.onclose = () => {
+      console.log('Disconnected from the WebSocket server');
+    };
+
+    // Handle WebSocket errors
+    socket.onerror = (error) => {
+      console.error(`WebSocket error: ${error}`);
+    };
+
+    // Send a message to the WebSocket server
+    function sendMessage() {
+      const messageInput = document.getElementById('messageInput');
+      const message = messageInput.value;
+      if (message) {
+        socket.send(message); // Send the message to the server
+        messageInput.value = ''; // Clear the input field
+        
+        // Display the sent message in the UI
+        const messagesDiv = document.getElementById('messages');
+        const userMessage = document.createElement('div');
+        userMessage.textContent = `You: ${message}`;
+        messagesDiv.appendChild(userMessage);
+      }
+    }
+  </script>
+</body>
+</html>
