@@ -110,7 +110,7 @@ wss.on('connection', (ws,req) => {
 
   // Handle incoming messages from clients
   ws.on('message', (message) => {
-    console.log(`Message from ${ws.clientIP}: ${message}`);
+    console.log(`Message from ${clientIP}: ${message}`);
     console.log(`Received message: ${message}`);
     const stringMessage = message.toString();
 
