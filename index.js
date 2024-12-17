@@ -73,6 +73,8 @@ const path = require("path");
 // Create HTTP server
 const server = http.createServer((req, res) => {
   if (req.method === "GET" && req.url === "/") {
+    // const clientIP = req.socket.remoteAddress; // Get the client's IP address
+    // console.log(`Client IP: ${clientIP}`);
     fs.readFile("./sockets.html", (err, data) => {
       if (err) {
         console.log(err);
@@ -95,7 +97,9 @@ const wss = new WebSocket.Server({ server });
 // Store clients in an array
 let clients = [];
 
-wss.on('connection', (ws) => {
+wss.on('connection', (ws,req) => {
+  const clientIP = req.socket.remoteAddress;
+  console.log(`New connection from IP: ${clientIP}`);
   console.log('A client connected');
   
   // Add the new client to the list of clients
@@ -106,6 +110,7 @@ wss.on('connection', (ws) => {
 
   // Handle incoming messages from clients
   ws.on('message', (message) => {
+    console.log(`Message from ${ws.clientIP}: ${message}`);
     console.log(`Received message: ${message}`);
     const stringMessage = message.toString();
 
