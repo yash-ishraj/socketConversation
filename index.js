@@ -5,7 +5,7 @@
 // const { console } = require('inspector');
 
 
-// // const port = process.env.PORT || 3000;
+// const port = process.env.PORT || 3000;
 // // Create HTTP server
 // const server = http.createServer((req, res) => {
 //   // res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -126,7 +126,7 @@ wss.on('connection', (ws) => {
 });
 
 // Start the server
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`WebSocket server is listening on localhost:${PORT}`);
 });
